@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # LLM Council
 
 ![llmcouncil](header.jpg)
@@ -85,3 +86,6 @@ Then open http://localhost:5173 in your browser.
 - **Frontend:** React + Vite, react-markdown for rendering
 - **Storage:** JSON files in `data/conversations/`
 - **Package Management:** uv for Python, npm for JavaScript
+=======
+# llm-council
+>>>>>>> 1f732b3a4d44e04fcee6cd6186a96507e85077fe
