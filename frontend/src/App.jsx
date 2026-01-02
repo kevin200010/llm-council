@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatInterface from './components/ChatInterface';
+import CouncilSelector from './components/CouncilSelector';
 import { api } from './api';
 import './App.css';
 
@@ -9,6 +10,7 @@ function App() {
   const [currentConversationId, setCurrentConversationId] = useState(null);
   const [currentConversation, setCurrentConversation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCouncil, setSelectedCouncil] = useState('default');
 
   // Load conversations on mount
   useEffect(() => {
@@ -57,7 +59,28 @@ function App() {
     setCurrentConversationId(id);
   };
 
-  const handleSendMessage = async (content) => {
+  const handleDeleteConversation = async (id) => {
+    try {
+      console.log('Deleting conversation:', id);
+      const result = await api.deleteConversation(id);
+      console.log('Delete result:', result);
+      
+      // If deleted conversation was selected, clear selection first
+      if (currentConversationId === id) {
+        setCurrentConversationId(null);
+        setCurrentConversation(null);
+      }
+      
+      // Reload conversations list to reflect the deletion
+      await loadConversations();
+      console.log('Conversations reloaded after deletion');
+    } catch (error) {
+      console.error('Failed to delete conversation:', error);
+      alert(`Failed to delete conversation: ${error.message}`);
+    }
+  };
+
+  const handleSendMessage = async (content, councilType = selectedCouncil) => {
     if (!currentConversationId) return;
 
     setIsLoading(true);
@@ -72,9 +95,16 @@ function App() {
       // Create a partial assistant message that will be updated progressively
       const assistantMessage = {
         role: 'assistant',
+        council_type: councilType,
         stage1: null,
         stage2: null,
         stage3: null,
+        iterations: null,
+        synthesis: null,
+        junior_responses: null,
+        lead_decision: null,
+        stages: null,
+        final_output: null,
         metadata: null,
         loading: {
           stage1: false,
@@ -92,6 +122,41 @@ function App() {
       // Send message with streaming
       await api.sendMessageStream(currentConversationId, content, (eventType, event) => {
         switch (eventType) {
+          case 'council_start':
+            setCurrentConversation((prev) => {
+              const messages = [...prev.messages];
+              const lastMsg = messages[messages.length - 1];
+              lastMsg.loading.council = true;
+              return { ...prev, messages };
+            });
+            break;
+
+          case 'council_complete':
+            setCurrentConversation((prev) => {
+              const messages = [...prev.messages];
+              const lastMsg = messages[messages.length - 1];
+              
+              // Handle different council types
+              if (event.iterations) {
+                lastMsg.iterations = event.iterations;
+                lastMsg.synthesis = event.synthesis;
+              } else if (event.junior_responses) {
+                lastMsg.junior_responses = event.junior_responses;
+                lastMsg.lead_decision = event.lead_decision;
+              } else if (event.stages) {
+                lastMsg.stages = event.stages;
+                lastMsg.final_output = event.final_output;
+              } else {
+                // Default 3-stage
+                lastMsg.stage1 = event.data;
+              }
+              
+              lastMsg.metadata = event.metadata;
+              lastMsg.loading.council = false;
+              return { ...prev, messages };
+            });
+            break;
+
           case 'stage1_start':
             setCurrentConversation((prev) => {
               const messages = [...prev.messages];
@@ -169,7 +234,7 @@ function App() {
           default:
             console.log('Unknown event type:', eventType);
         }
-      });
+      }, selectedCouncil);
     } catch (error) {
       console.error('Failed to send message:', error);
       // Remove optimistic messages on error
@@ -188,12 +253,20 @@ function App() {
         currentConversationId={currentConversationId}
         onSelectConversation={handleSelectConversation}
         onNewConversation={handleNewConversation}
+        onDeleteConversation={handleDeleteConversation}
       />
-      <ChatInterface
-        conversation={currentConversation}
-        onSendMessage={handleSendMessage}
-        isLoading={isLoading}
-      />
+      <div className="main-content">
+        <CouncilSelector
+          selectedCouncil={selectedCouncil}
+          onSelectCouncil={setSelectedCouncil}
+        />
+        <ChatInterface
+          conversation={currentConversation}
+          onSendMessage={handleSendMessage}
+          isLoading={isLoading}
+          selectedCouncil={selectedCouncil}
+        />
+      </div>
     </div>
   );
 }

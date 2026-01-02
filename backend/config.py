@@ -1,6 +1,7 @@
 """Configuration for the LLM Council."""
 
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -37,4 +38,6 @@ CHAIRMAN_MODEL = "meta-llama/llama-3.1-405b-instruct:free"
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 # Data directory for conversation storage
-DATA_DIR = "data/conversations"
+# Use absolute path to ensure consistency
+PROJECT_ROOT = Path(__file__).parent.parent
+DATA_DIR = str(PROJECT_ROOT / "data" / "conversations")

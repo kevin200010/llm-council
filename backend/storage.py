@@ -156,6 +156,23 @@ def add_assistant_message(
     save_conversation(conversation)
 
 
+def add_assistant_message_obj(conversation_id: str, message: Dict[str, Any]):
+    """
+    Add an assistant message object to a conversation.
+    Handles any council type message structure.
+
+    Args:
+        conversation_id: Conversation identifier
+        message: Assistant message dict (can be default, round_table, hierarchy, or assembly_line)
+    """
+    conversation = get_conversation(conversation_id)
+    if conversation is None:
+        raise ValueError(f"Conversation {conversation_id} not found")
+
+    conversation["messages"].append(message)
+    save_conversation(conversation)
+
+
 def update_conversation_title(conversation_id: str, title: str):
     """
     Update the title of a conversation.
@@ -170,3 +187,26 @@ def update_conversation_title(conversation_id: str, title: str):
 
     conversation["title"] = title
     save_conversation(conversation)
+
+def delete_conversation(conversation_id: str) -> bool:
+    """
+    Delete a conversation.
+
+    Args:
+        conversation_id: Conversation identifier
+
+    Returns:
+        True if deleted, False if not found
+    """
+    ensure_data_dir()
+    path = get_conversation_path(conversation_id)
+
+    if not os.path.exists(path):
+        return False
+
+    try:
+        os.remove(path)
+        return True
+    except Exception as e:
+        print(f"Error deleting conversation {conversation_id}: {e}")
+        return False

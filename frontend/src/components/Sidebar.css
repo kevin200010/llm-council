@@ -55,6 +55,11 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  position: relative;
 }
 
 .conversation-item:hover {
@@ -66,13 +71,104 @@
   border: 1px solid #4a90e2;
 }
 
+.conversation-content {
+  flex: 1;
+  cursor: pointer;
+  min-width: 0;
+}
+
 .conversation-title {
   color: #333;
   font-size: 14px;
   margin-bottom: 4px;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .conversation-meta {
   color: #999;
   font-size: 12px;
+}
+
+.delete-btn {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  background: #fee;
+  color: #e74c3c;
+}
+
+.delete-btn:active {
+  background: #fdd;
+  color: #c0392b;
+}
+
+.delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  color: #999;
+}
+
+.delete-btn:disabled:hover {
+  background: transparent;
+}
+
+.delete-confirm {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.confirm-btn,
+.cancel-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.confirm-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.confirm-btn:hover:not(:disabled) {
+  background: #c0392b;
+}
+
+.confirm-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background: #bdc3c7;
+  color: white;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background: #95a5a6;
+}
+
+.cancel-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

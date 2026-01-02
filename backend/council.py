@@ -255,17 +255,28 @@ def calculate_aggregate_rankings(
     return aggregate
 
 
-async def generate_conversation_title(user_query: str) -> str:
+async def generate_conversation_title(user_query: str, council_type: str = "default") -> str:
     """
-    Generate a short title for a conversation based on the first user message.
+    Generate a smart title for a conversation based on the first user message and council type.
 
     Args:
         user_query: The first user message
+        council_type: The type of council being used (default, round_table, hierarchy, assembly_line)
 
     Returns:
-        A short title (3-5 words)
+        A short title with council type indicator (max ~15 words)
     """
-    title_prompt = f"""Generate a very short title (3-5 words maximum) that summarizes the following question.
+    # Council type prefixes with emojis
+    council_prefixes = {
+        "round_table": "🔄 [Round Table]",
+        "hierarchy": "👑 [Hierarchy]",
+        "assembly_line": "⚙️ [Assembly]",
+        "default": "🏛️ [3-Stage]"
+    }
+    
+    prefix = council_prefixes.get(council_type, "🏛️ [Council]")
+    
+    title_prompt = f"""Generate a very short title (3-6 words maximum) that summarizes the following question.
 The title should be concise and descriptive. Do not use quotes or punctuation in the title.
 
 Question: {user_query}
@@ -274,14 +285,10 @@ Title:"""
 
     messages = [{"role": "user", "content": title_prompt}]
 
-    # Use gemini-2.5-flash for title generation (fast and cheap)
-    # response = await query_model("google/gemini-2.5-flash", messages, timeout=30.0)
     response = await query_model("mistralai/mistral-7b-instruct:free", messages, timeout=30.0)
 
-
     if response is None:
-        # Fallback to a generic title
-        return "New Conversation"
+        return f"{prefix} New Conversation"
 
     title = response.get('content', 'New Conversation').strip()
 
@@ -289,10 +296,10 @@ Title:"""
     title = title.strip('"\'')
 
     # Truncate if too long
-    if len(title) > 50:
-        title = title[:47] + "..."
+    if len(title) > 45:
+        title = title[:42] + "..."
 
-    return title
+    return f"{prefix} {title}"
 
 
 async def run_full_council(user_query: str) -> Tuple[List, List, Dict, Dict]:

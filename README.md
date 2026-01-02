@@ -89,3 +89,56 @@ Then open http://localhost:5173 in your browser.
 =======
 # llm-council
 >>>>>>> 1f732b3a4d44e04fcee6cd6186a96507e85077fe
+
+## Test Results (local verification)
+
+I started the dev servers and exercised each council type once to verify type-specific flows and storage.
+
+- Backend: http://localhost:8001
+- Frontend (Vite): http://localhost:5174
+
+Commands used (streaming endpoint examples):
+
+```bash
+# Create a conversation
+curl -s -X POST http://localhost:8001/api/conversations -H "Content-Type: application/json" -d '{}' | jq
+
+# Default 3-stage
+curl -s -N -X POST http://localhost:8001/api/conversations/<CONV_ID>/message/stream \
+    -H "Content-Type: application/json" \
+    -d '{"content":"What is 2+2?","council_type":"default"}'
+
+# Round Table
+curl -s -N -X POST http://localhost:8001/api/conversations/<CONV_ID>/message/stream \
+    -H "Content-Type: application/json" \
+    -d '{"content":"Explain photosynthesis","council_type":"round_table"}'
+
+# Hierarchy
+curl -s -N -X POST http://localhost:8001/api/conversations/<CONV_ID>/message/stream \
+    -H "Content-Type: application/json" \
+    -d '{"content":"What is machine learning?","council_type":"hierarchy"}'
+
+# Assembly Line
+curl -s -N -X POST http://localhost:8001/api/conversations/<CONV_ID>/message/stream \
+    -H "Content-Type: application/json" \
+    -d '{"content":"Describe the water cycle","council_type":"assembly_line"}'
+```
+
+Observed results during my run:
+
+- All four streaming requests returned HTTP 200 from the server.
+- The backend saved assistant messages with `council_type` set to `default`, `round_table`, `hierarchy`, and `assembly_line` respectively.
+- A GET on the conversation showed the saved messages, e.g.:
+
+```
+- Role: assistant, Council Type: default
+- Role: assistant, Council Type: round_table
+- Role: assistant, Council Type: hierarchy
+- Role: assistant, Council Type: assembly_line
+```
+
+UI verification:
+
+- The frontend (Vite) was accessible at `http://localhost:5174` and the chat UI displayed type-specific views for each assistant message (RoundTable, Hierarchy, AssemblyLine, or the 3-stage panels).
+
+If you want, I can add automated tests or a small script to run these checks and output a report file.

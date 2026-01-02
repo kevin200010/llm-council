@@ -1,0 +1,155 @@
+.assembly-line-view {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+.council-header {
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 12px;
+}
+
+.council-header h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+}
+
+.council-header p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.stages-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stage-node {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+}
+
+.stage-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.stage-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stage-number {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.stage-role {
+  font-size: 11px;
+  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.stage-agent {
+  font-size: 12px;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.stage-content {
+  font-size: 13px;
+  line-height: 1.5;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.stage-content p {
+  margin: 0 0 8px 0;
+}
+
+.stage-content p:last-child {
+  margin-bottom: 0;
+}
+
+.arrow {
+  align-self: center;
+  margin: -10px 0;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.final-output-section {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-left: 6px solid rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.final-header {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.final-title {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.final-subtitle {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.final-content {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.final-content p {
+  margin: 0 0 12px 0;
+}
+
+.final-content p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .stages-timeline {
+    gap: 16px;
+  }
+
+  .stage-node {
+    gap: 10px;
+  }
+
+  .assembly-line-view {
+    padding: 16px;
+  }
+}

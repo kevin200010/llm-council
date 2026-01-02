@@ -1,0 +1,85 @@
+.council-selector {
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.council-selector-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.council-selector-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+}
+
+.council-selector-header p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.council-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.council-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.council-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.council-card.selected {
+  background: #ffffff;
+  color: #111827;
+  border-color: rgba(0, 0, 0, 0.06);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12);
+}
+
+.council-card.selected h3,
+.council-card.selected .council-process {
+  color: #111827;
+}
+
+.council-card.selected .council-icon {
+  transform: scale(1.05);
+}
+
+.council-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.council-card h3 {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.council-process {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .council-grid {
+    grid-template-columns: 1fr;
+  }
+}

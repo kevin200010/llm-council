@@ -1,0 +1,129 @@
+.hierarchy-view {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+.council-header {
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 12px;
+}
+
+.council-header h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+}
+
+.council-header p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.junior-section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.responses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.response-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 280px;
+}
+
+.response-model {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 0.9;
+}
+
+.response-text {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.response-text p {
+  margin: 0 0 8px 0;
+}
+
+.response-text p:last-child {
+  margin-bottom: 0;
+}
+
+.lead-decision-section {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-left: 6px solid rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.lead-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.lead-title {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.lead-role {
+  font-size: 11px;
+  opacity: 0.85;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.lead-content {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.lead-content p {
+  margin: 0 0 12px 0;
+}
+
+.lead-content p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .responses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hierarchy-view {
+    padding: 16px;
+  }
+}
