@@ -13,46 +13,144 @@ export default function ChatInterface({
   onSendMessage,
   isLoading,
   selectedCouncil,
+  onNewConversation,
+  savedScroll,
+  onSaveScroll,
 }) {
   const [input, setInput] = useState('');
   const [messageCouncil, setMessageCouncil] = useState(selectedCouncil || 'default');
   const messagesEndRef = useRef(null);
+  const containerRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const el = containerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [conversation]);
+    const el = containerRef.current;
+    if (!el) return;
+
+    // If we have a saved scroll position for this conversation, restore it.
+    if (savedScroll || savedScroll === 0) {
+      el.scrollTop = savedScroll;
+    } else {
+      scrollToBottom();
+    }
+  }, [conversation, savedScroll]);
+
+  // When unmounting or switching conversations, persist current scroll position
+  useEffect(() => {
+    return () => {
+      if (conversation && typeof onSaveScroll === 'function') {
+        const el = containerRef.current;
+        onSaveScroll(conversation.id, el ? el.scrollTop : 0);
+      }
+    };
+  }, [conversation, onSaveScroll]);
 
   // Keep per-message selector in sync with global selectedCouncil
   useEffect(() => {
     setMessageCouncil(selectedCouncil || 'default');
   }, [selectedCouncil]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, convId = null) => {
     e.preventDefault();
     if (input.trim() && !isLoading) {
-      onSendMessage(input, messageCouncil);
+      onSendMessage(input, messageCouncil, convId);
       setInput('');
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = async (e) => {
     // Submit on Enter (without Shift)
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
+      // If parent provided a create-new-conversation handler, create a fresh conversation first
+      if (typeof onNewConversation === 'function') {
+        try {
+          const newConv = await onNewConversation();
+          const newId = newConv?.id || null;
+          handleSubmit(e, newId);
+          return;
+        } catch (err) {
+          console.error('Failed to create new conversation:', err);
+        }
+      }
       handleSubmit(e);
     }
   };
+
+  const messages = conversation?.messages || [];
 
   if (!conversation) {
     return (
       <div className="chat-interface">
         <div className="empty-state">
-          <h2>Welcome to LLM Council</h2>
-          <p>Create a new conversation to get started</p>
+          <div className="empty-state-content">
+            <h2>Welcome to LLM Council</h2>
+            <p>Choose how the council will collaborate</p>
+            <div className="empty-council-grid">
+              <div className="empty-council-card" onClick={() => setMessageCouncil('default')}>
+                <div className="council-icon">🏛️</div>
+                <h3>The 3-Stage Council</h3>
+                <p>Collect → Rank → Synthesize</p>
+              </div>
+              <div className="empty-council-card" onClick={() => setMessageCouncil('round_table')}>
+                <div className="council-icon">⚔️</div>
+                <h3>The Round Table</h3>
+                <p>Every agent sees every response and iterates together</p>
+              </div>
+              <div className="empty-council-card" onClick={() => setMessageCouncil('hierarchy')}>
+                <div className="council-icon">👑</div>
+                <h3>The Hierarchy</h3>
+                <p>Junior agents report to a "Lead Agent" who makes the final call</p>
+              </div>
+              <div className="empty-council-card" onClick={() => setMessageCouncil('assembly_line')}>
+                <div className="council-icon">⚙️</div>
+                <h3>The Assembly Line</h3>
+                <p>Agent A finishes, then Agent B starts, then Agent C polishes</p>
+              </div>
+            </div>
+          </div>
+          
+          <form className="input-form input-form-centered" onSubmit={handleSubmit}>
+            <div className="input-bar">
+              {/* upload button removed to simplify input bar */}
+
+              <input
+                type="text"
+                className="message-input"
+                placeholder="Ask the council..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                disabled={isLoading}
+              />
+
+              <select
+                className="council-selector-compact"
+                value={messageCouncil}
+                onChange={(e) => setMessageCouncil(e.target.value)}
+                disabled={isLoading}
+                aria-label="Select council type"
+              >
+                <option value="default">3-Stage</option>
+                <option value="round_table">Round Table</option>
+                <option value="hierarchy">Hierarchy</option>
+                <option value="assembly_line">Assembly Line</option>
+              </select>
+
+              <button
+                type="submit"
+                className="send-button"
+                disabled={!input.trim() || isLoading}
+                title="Send message"
+              >
+                ↑
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     );
@@ -60,14 +158,14 @@ export default function ChatInterface({
 
   return (
     <div className="chat-interface">
-      <div className="messages-container">
-        {conversation.messages.length === 0 ? (
+      <div className="messages-container" ref={containerRef}>
+        {messages.length === 0 ? (
           <div className="empty-state">
             <h2>Start a conversation</h2>
             <p>Ask a question to consult the LLM Council</p>
           </div>
         ) : (
-          conversation.messages.map((msg, index) => (
+          messages.map((msg, index) => (
             <div key={index} className="message-group">
               {msg.role === 'user' ? (
                 <div className="user-message">
@@ -184,7 +282,7 @@ export default function ChatInterface({
           ))
         )}
 
-        {isLoading && (
+              {isLoading && (
           <div className="loading-indicator">
             <div className="spinner"></div>
             <span>Consulting the council...</span>
@@ -194,20 +292,23 @@ export default function ChatInterface({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Always show input form at the bottom so users can continue asking questions */}
+      {/* Gemini-style input bar */}
       <form className="input-form" onSubmit={handleSubmit}>
-        <textarea
-          className="message-input"
-          placeholder="Ask your question... (Shift+Enter for new line, Enter to send)"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={isLoading}
-          rows={3}
-        />
+        <div className="input-bar">
+          {/* upload button removed to simplify input bar */}
 
-        <div className="message-controls">
+          <input
+            type="text"
+            className="message-input"
+            placeholder="Ask the council..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={isLoading}
+          />
+
           <select
+            className="council-selector-compact"
             value={messageCouncil}
             onChange={(e) => setMessageCouncil(e.target.value)}
             disabled={isLoading}
@@ -223,8 +324,9 @@ export default function ChatInterface({
             type="submit"
             className="send-button"
             disabled={!input.trim() || isLoading}
+            title="Send message"
           >
-            Send
+            ↑
           </button>
         </div>
       </form>

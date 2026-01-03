@@ -2,20 +2,59 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Dark Theme - Single Indigo Color Palette */
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --primary-lighter: #a5b4fc;
+  --primary-dark: #4f46e5;
+  --primary-darker: #4338ca;
+  
+  /* Dark Backgrounds */
+  --bg-dark: #0f172a;
+  --bg-darker: #020617;
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --bg-input: #1e293b;
+  
+  /* Dark Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  
+  /* Glass & Borders */
+  --glass-border: rgba(99, 102, 241, 0.15);
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-bg-light: rgba(30, 41, 59, 0.6);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+  
+  /* Transitions */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .app {
   display: flex;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: #ffffff;
-  color: #333;
+  background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+  color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  letter-spacing: 0.3px;
 }
+
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
 }

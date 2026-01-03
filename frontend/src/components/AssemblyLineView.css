@@ -1,26 +1,58 @@
 .assembly-line-view {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  color: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin: 12px 0;
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0;
+  border-radius: 0;
+  margin: 24px 0;
 }
 
 .council-header {
   margin-bottom: 20px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  padding-bottom: 12px;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .council-header h3 {
   margin: 0 0 4px 0;
   font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .council-header p {
   margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.stage-header-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: var(--transition);
+}
+
+.stage-header-btn:hover .stage-number,
+.stage-header-btn:hover .final-title {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.expand-icon {
   font-size: 12px;
-  opacity: 0.9;
+  display: inline-flex;
+  align-items: center;
+  min-width: 12px;
+  color: var(--primary);
+}
+
+.stage-content {
+  display: block;
+  margin-top: 12px;
+  padding: 0;
 }
 
 .stages-timeline {
@@ -45,49 +77,68 @@
 
 .stage-card {
   flex: 1;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  padding: 12px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .stage-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  margin-bottom: 8px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 0;
+  border-bottom: none;
+  flex-wrap: wrap;
 }
 
 .stage-number {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 13px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--primary);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
 }
 
 .stage-role {
   font-size: 11px;
-  opacity: 0.8;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 2px 8px;
-  border-radius: 3px;
+  color: var(--text-secondary);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .stage-agent {
-  font-size: 12px;
-  margin-bottom: 8px;
-  opacity: 0.9;
+  font-size: 11px;
+  margin-bottom: 12px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .stage-content {
-  font-size: 13px;
-  line-height: 1.5;
-  max-height: 250px;
-  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.8;
+  max-height: none;
+  overflow-y: visible;
+  color: var(--text-primary);
 }
 
 .stage-content p {
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0;
 }
 
 .stage-content p:last-child {
@@ -98,38 +149,58 @@
   align-self: center;
   margin: -10px 0;
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
 }
 
 .final-output-section {
-  background: rgba(255, 255, 255, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-left: 6px solid rgba(255, 255, 255, 0.8);
-  border-radius: 4px;
-  padding: 16px;
-  margin-top: 20px;
+  background: transparent;
+  border: none;
+  border-left: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: 28px;
 }
 
 .final-header {
   margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 0;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .final-title {
   font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 4px;
+  font-size: 13px;
+  margin-bottom: 0;
+  padding: 8px 12px;
+  border: 1.5px solid var(--primary);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
 }
 
 .final-subtitle {
   font-size: 11px;
-  opacity: 0.85;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+  font-weight: 500;
 }
 
 .final-content {
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin-top: 12px;
 }
 
 .final-content p {
@@ -147,9 +218,5 @@
 
   .stage-node {
     gap: 10px;
-  }
-
-  .assembly-line-view {
-    padding: 16px;
   }
 }

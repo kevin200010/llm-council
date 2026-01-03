@@ -1,65 +1,103 @@
 .stage {
   margin: 24px 0;
-  padding: 20px;
-  background: #fafafa;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+}
+
+.stage-header-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: var(--transition);
+}
+
+.stage-header-btn:hover .stage-title {
+  background: rgba(99, 102, 241, 0.1);
 }
 
 .stage-title {
   margin: 0 0 16px 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--primary);
+  border-radius: 6px;
+  letter-spacing: -0.3px;
+}
+
+.expand-icon {
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  min-width: 12px;
+  color: var(--primary);
+}
+
+.stage-content {
+  display: block;
+  margin-top: 12px;
+  padding: 0;
 }
 
 .tabs {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  margin: 16px 0;
   flex-wrap: wrap;
 }
 
 .tab {
-  padding: 8px 16px;
-  background: #ffffff;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px 6px 0 0;
-  color: #666;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1.5px solid var(--glass-border);
+  border-radius: 6px;
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
+  font-size: 13px;
+  font-weight: 500;
+  transition: var(--transition);
 }
 
 .tab:hover {
-  background: #f0f0f0;
-  color: #333;
-  border-color: #4a90e2;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--text-primary);
+  border-color: var(--primary-light);
 }
 
 .tab.active {
-  background: #ffffff;
-  color: #4a90e2;
-  border-color: #4a90e2;
-  border-bottom-color: #ffffff;
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--text-primary);
+  border-color: var(--primary);
   font-weight: 600;
 }
 
 .tab-content {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  border: none;
 }
 
 .model-name {
-  color: #888;
-  font-size: 12px;
+  color: var(--text-tertiary);
+  font-size: 11px;
   margin-bottom: 12px;
   font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .response-text {
-  color: #333;
-  line-height: 1.6;
+  color: var(--text-primary);
+  line-height: 1.7;
 }

@@ -1,73 +1,116 @@
 .hierarchy-view {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  color: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin: 12px 0;
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0;
+  border-radius: 0;
+  margin: 24px 0;
 }
 
 .council-header {
   margin-bottom: 20px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  padding-bottom: 12px;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .council-header h3 {
   margin: 0 0 4px 0;
   font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .council-header p {
   margin: 0;
-  font-size: 12px;
-  opacity: 0.9;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.stage-header-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: var(--transition);
+}
+
+.stage-header-btn:hover .section-title,
+.stage-header-btn:hover .lead-title {
+  background: rgba(99, 102, 241, 0.1);
 }
 
 .junior-section {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .section-title {
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
   padding: 8px 12px;
-  border-radius: 4px;
-  margin-bottom: 12px;
-  font-weight: 500;
-  font-size: 14px;
+  border: 1.5px solid var(--primary);
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
+}
+
+.expand-icon {
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  min-width: 12px;
+  color: var(--primary);
+}
+
+.stage-content {
+  display: block;
+  margin-top: 12px;
+  padding: 0;
 }
 
 .responses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
   margin-bottom: 12px;
 }
 
 .response-card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  padding: 12px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
   overflow-y: auto;
-  max-height: 280px;
+  max-height: none;
 }
 
 .response-model {
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  opacity: 0.9;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--primary);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .response-text {
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-primary);
 }
 
 .response-text p {
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0;
 }
 
 .response-text p:last-child {
@@ -75,12 +118,12 @@
 }
 
 .lead-decision-section {
-  background: rgba(255, 255, 255, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-left: 6px solid rgba(255, 255, 255, 0.8);
-  border-radius: 4px;
-  padding: 16px;
-  margin-top: 20px;
+  background: transparent;
+  border: none;
+  border-left: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: 28px;
 }
 
 .lead-header {
@@ -88,26 +131,43 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 0;
+  border-bottom: none;
+  gap: 12px;
 }
 
 .lead-title {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 13px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--primary);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
 }
 
 .lead-role {
   font-size: 11px;
-  opacity: 0.85;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 2px 8px;
-  border-radius: 3px;
+  color: var(--text-secondary);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+  font-weight: 500;
 }
 
 .lead-content {
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin-top: 12px;
 }
 
 .lead-content p {
@@ -121,9 +181,5 @@
 @media (max-width: 768px) {
   .responses-grid {
     grid-template-columns: 1fr;
-  }
-
-  .hierarchy-view {
-    padding: 16px;
   }
 }

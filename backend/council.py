@@ -266,40 +266,64 @@ async def generate_conversation_title(user_query: str, council_type: str = "defa
     Returns:
         A short title with council type indicator (max ~15 words)
     """
-    # Council type prefixes with emojis
-    council_prefixes = {
-        "round_table": "🔄 [Round Table]",
-        "hierarchy": "👑 [Hierarchy]",
-        "assembly_line": "⚙️ [Assembly]",
-        "default": "🏛️ [3-Stage]"
+    # Human-readable council labels (no emoji) for clarity
+    council_labels = {
+        "round_table": "[Round Table]",
+        "hierarchy": "[Hierarchy]",
+        "assembly_line": "[Assembly]",
+        "default": "[3-Stage]"
     }
-    
-    prefix = council_prefixes.get(council_type, "🏛️ [Council]")
-    
-    title_prompt = f"""Generate a very short title (3-6 words maximum) that summarizes the following question.
-The title should be concise and descriptive. Do not use quotes or punctuation in the title.
+
+    label = council_labels.get(council_type, "[Council]")
+
+    # Prompt the model for a short, descriptive title. Ask for plain text only.
+    title_prompt = f"""
+Generate a concise, human-friendly title (3-8 words) that clearly summarizes the question below.
+Return only the title text, without quotes, emojis, or extra commentary. Use Title Case (capitalize main words).
 
 Question: {user_query}
 
-Title:"""
+Title:
+"""
 
     messages = [{"role": "user", "content": title_prompt}]
 
     response = await query_model("mistralai/mistral-7b-instruct:free", messages, timeout=30.0)
 
+    # Helper to make a safe fallback title from the user query
+    def fallback_from_query(q: str, max_words: int = 7) -> str:
+        import re
+        # Remove non-word characters except spaces
+        cleaned = re.sub(r"[^\w\s]", "", q).strip()
+        if not cleaned:
+            return "New Conversation"
+        words = cleaned.split()
+        # Take the first meaningful words (up to max_words)
+        picked = words[:max_words]
+        # Title-case the result
+        return " ".join([w.capitalize() for w in picked])
+
     if response is None:
-        return f"{prefix} New Conversation"
+        title = fallback_from_query(user_query)
+    else:
+        title = response.get('content', '').strip()
+        # If model returned nothing useful, derive from the query
+        if not title:
+            title = fallback_from_query(user_query)
 
-    title = response.get('content', 'New Conversation').strip()
-
-    # Clean up the title - remove quotes, limit length
+    # Clean the title: remove surrounding quotes, trim, collapse whitespace
     title = title.strip('"\'')
+    title = " ".join(title.split())
 
-    # Truncate if too long
-    if len(title) > 45:
-        title = title[:42] + "..."
+    # Enforce Title Case for consistency
+    title = " ".join([w.capitalize() for w in title.split()[:10]])
 
-    return f"{prefix} {title}"
+    # Limit length
+    if len(title) > 60:
+        title = title[:57].rstrip() + "..."
+
+    # Final composed title with clear label
+    return f"{label} {title}"
 
 
 async def run_full_council(user_query: str) -> Tuple[List, List, Dict, Dict]:

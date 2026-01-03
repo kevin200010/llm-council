@@ -7,6 +7,7 @@ export default function Sidebar({
   onSelectConversation,
   onNewConversation,
   onDeleteConversation,
+  runningConversationId,
 }) {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [isDeleting, setIsDeleting] = useState(null);
@@ -61,6 +62,13 @@ export default function Sidebar({
                   {conv.message_count} messages
                 </div>
               </div>
+
+              {/* Show a single running indicator for the active running conversation */}
+              {runningConversationId === conv.id && (
+                <div className="running-indicator" title="Running">
+                  ●
+                </div>
+              )}
 
               {deleteConfirm === conv.id ? (
                 <div className="delete-confirm">
